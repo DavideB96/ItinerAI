@@ -1,23 +1,55 @@
 export async function POST(request) {
-  const { destination, days, budget, interests } = await request.json();
+  try {
+    const { destination, days, budget, interests } = await request.json();
 
-  // Itinerario finto: stessa forma che ci darà l'AI in futuro
-  const itinerary = {
-    destination,
-    summary: `${days} giorni a ${destination} con budget ${budget}, all'insegna di: ${interests || "un po' di tutto"}.`,
-    days: Array.from({ length: Number(days) }, (_, i) => ({
-      day: i + 1,
-      title: `Giorno ${i + 1} a ${destination}`,
-      activities: [
-        { time: "Mattina", name: "Colazione tipica", description: "Inizio in un locale storico del centro." },
-        { time: "Pomeriggio", name: "Visita guidata", description: "Esplorazione dei luoghi principali." },
-        { time: "Sera", name: "Cena locale", description: "Ristorante consigliato dagli abitanti." },
-      ],
-    })),
-  };
+    const prompt = `Sei un esperto pianificatore di viaggi. Crea un itinerario di ${days} giorni a ${destination}, con budget ${budget} e questi interessi: ${interests || "un po' di tutto"}.
 
-  // Simuliamo la lentezza dell'AI (2 secondi) per testare il loading
-  await new Promise((resolve) => setTimeout(resolve, 2000));
+Rispondi SOLO con un JSON valido, senza alcun testo prima o dopo, con esattamente questa struttura:
+{
+  "destination": "${destination}",
+  "summary": "riassunto del viaggio in 1-2 frasi",
+  "days": [
+    {
+      "day": 1,
+      "title": "titolo breve della giornata",
+      "activities": [
+        { "time": "Mattina", "name": "nome attività", "description": "descrizione in 1 frase" },
+        { "time": "Pomeriggio", "name": "...", "description": "..." },
+        { "time": "Sera", "name": "...", "description": "..." }
+      ]
+    }
+  ]
+}
 
-  return Response.json(itinerary);
+Regole: tutto in italiano, luoghi e locali reali e specifici di ${destination}, attività coerenti col budget ${budget}.`;
+
+    const res = await fetch(
+      "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-goog-api-key": process.env.GEMINI_API_KEY,
+        },
+        body: JSON.stringify({
+          contents: [{ parts: [{ text: prompt }] }],
+          generationConfig: { responseMimeType: "application/json" },
+        }),
+      }
+    );
+
+    if (!res.ok) {
+      console.error("Errore Gemini:", await res.text());
+      return Response.json({ error: "Errore nella generazione" }, { status: 500 });
+    }
+
+    const data = await res.json();
+    const text = data.candidates[0].content.parts[0].text;
+    const itinerary = JSON.parse(text);
+
+    return Response.json(itinerary);
+  } catch (error) {
+    console.error(error);
+    return Response.json({ error: "Errore nella generazione" }, { status: 500 });
+  }
 }
