@@ -1,3 +1,6 @@
+import { auth } from "../../../auth";
+import { prisma } from "../../../lib/prisma";
+
 export async function POST(request) {
   try {
     const { destination, days, budget, interests } = await request.json();
@@ -46,6 +49,20 @@ Regole: tutto in italiano, luoghi e locali reali e specifici di ${destination}, 
     const data = await res.json();
     const text = data.candidates[0].content.parts[0].text;
     const itinerary = JSON.parse(text);
+
+    const session = await auth();
+    if (session?.user?.id) {
+      await prisma.itinerary.create({
+        data: {
+          destination,
+          days: Number(days),
+          budget,
+          interests,
+          content: itinerary,
+          userId: session.user.id,
+        },
+      });
+    }
 
     return Response.json(itinerary);
   } catch (error) {

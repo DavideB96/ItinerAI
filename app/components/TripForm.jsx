@@ -11,6 +11,7 @@ export default function TripForm() {
   });
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   function handleChange(e) {
     const { name, value } = e.target;
@@ -21,6 +22,7 @@ export default function TripForm() {
     e.preventDefault();
     setLoading(true);
     setResult(null);
+    setError(null);
 
     const res = await fetch("/api/genera", {
       method: "POST",
@@ -29,7 +31,11 @@ export default function TripForm() {
     });
     const data = await res.json();
 
-    setResult(data);
+    if (res.ok) {
+      setResult(data);
+    } else {
+      setError("Qualcosa è andato storto nella generazione. Riprova tra poco.");
+    }
     setLoading(false);
   }
 
@@ -109,6 +115,12 @@ export default function TripForm() {
         </button>
       </form>
 
+      {error && (
+        <p className="mt-6 w-full max-w-md rounded-lg bg-red-50 p-4 text-sm font-medium text-red-700">
+          {error}
+        </p>
+      )}
+      
       {result && (
         <section className="mt-10 w-full max-w-md text-left">
           <h2 className="text-xl font-bold text-zinc-900">{result.summary}</h2>
