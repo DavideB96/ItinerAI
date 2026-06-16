@@ -1,5 +1,6 @@
 import { auth } from "../../../auth";
 import { prisma } from "../../../lib/prisma";
+import { getDestinationImage } from "../../../lib/unsplash";
 
 export async function POST(request) {
   try {
@@ -30,7 +31,7 @@ Rispondi SOLO con un JSON valido, senza alcun testo prima o dopo, con esattament
 
 Regole: tutto in italiano, luoghi e locali reali e specifici di ${destination}, attività coerenti col budget ${budget}. I consigli devono essere pratici e utili (es. orari migliori per evitare la folla, giorni di chiusura, come muoversi, quartieri da evitare o preferire in certi momenti).`;
 
-    const res = await fetch(
+    const geminiPromise = fetch(
       "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent",
       {
         method: "POST",
@@ -45,6 +46,9 @@ Regole: tutto in italiano, luoghi e locali reali e specifici di ${destination}, 
       }
     );
 
+    const imagePromise = getDestinationImage(destination);
+    const [res, imageUrl] = await Promise.all([geminiPromise, imagePromise]);
+
     if (!res.ok) {
       console.error("Errore Gemini:", await res.text());
       return Response.json({ error: "Errore nella generazione" }, { status: 500 });
@@ -53,6 +57,7 @@ Regole: tutto in italiano, luoghi e locali reali e specifici di ${destination}, 
     const data = await res.json();
     const text = data.candidates[0].content.parts[0].text;
     const itinerary = JSON.parse(text);
+    itinerary.imageUrl = imageUrl;
 
     const session = await auth();
     if (session?.user?.id) {

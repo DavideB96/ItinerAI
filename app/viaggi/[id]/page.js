@@ -2,6 +2,7 @@ import { auth } from "../../../auth";
 import { prisma } from "../../../lib/prisma";
 import { notFound } from "next/navigation";
 import DeleteButton from "../../components/DeleteButton";
+import Image from "next/image";
 
 export default async function DettaglioViaggio({ params }) {
   const { id } = await params;
@@ -28,6 +29,15 @@ export default async function DettaglioViaggio({ params }) {
       </div>
 
       <section className="mt-8 w-full max-w-md text-left">
+        {itinerary.imageUrl && (
+          <Image
+            src={itinerary.imageUrl}
+            alt={`Foto di ${trip.destination}`}
+            width={400}
+            height={192}
+            className="mb-4 h-48 w-full rounded-lg object-cover"
+          />
+        )}
         <h2 className="text-lg font-semibold text-zinc-900">{itinerary.summary}</h2>
         {itinerary.tips && (
           <div className="mt-4 rounded-lg bg-amber-50 p-4">

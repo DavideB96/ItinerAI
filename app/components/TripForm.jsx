@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 
 export default function TripForm() {
   const [form, setForm] = useState({
@@ -153,6 +154,15 @@ export default function TripForm() {
       
       {result && (
         <section className="mt-10 w-full max-w-md text-left">
+          {result.imageUrl && (
+            <Image
+              src={result.imageUrl}
+              alt={`Foto di ${result.destination}`}
+              width={400}
+              height={192}
+              className="mb-4 h-48 w-full rounded-lg object-cover"
+            />
+          )}
           <h2 className="text-xl font-bold text-zinc-900">{result.summary}</h2>
           {result.tips && (
             <div className="mt-4 rounded-lg bg-amber-50 p-4">
