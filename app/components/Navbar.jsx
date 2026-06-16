@@ -24,9 +24,14 @@ export default async function Navbar() {
                         <LogoutButton />
                     </>
                 ) : (
-                    <Link href="/accedi" className="text-zinc-700 hover:text-zinc-900">
-                        Accedi
-                    </Link>
+                    <>
+                        <Link href="/accedi" className="text-zinc-700 hover:text-zinc-900">
+                            Accedi
+                        </Link>
+                        <Link href="/registrati" className="text-zinc-700 hover:text-zinc-900">
+                            Registrati
+                        </Link>
+                    </>
                 )}
             </div>
         </nav>

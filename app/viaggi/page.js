@@ -1,5 +1,6 @@
 import { auth } from "../../auth";
 import { prisma } from "../../lib/prisma";
+import Link from "next/link";
 
 export default async function ViaggiPage() {
   const session = await auth();
@@ -16,12 +17,16 @@ export default async function ViaggiPage() {
 
       <div className="mt-8 w-full max-w-md space-y-4">
         {itineraries.map((trip) => (
-          <div key={trip.id} className="rounded-lg border border-zinc-200 bg-white p-4">
+          <Link
+            key={trip.id}
+            href={`/viaggi/${trip.id}`}
+            className="block rounded-lg border border-zinc-200 bg-white p-4 hover:border-zinc-400"
+          >
             <h2 className="font-semibold text-zinc-900">{trip.destination}</h2>
             <p className="text-sm text-zinc-600">
               {trip.days} giorni · budget {trip.budget}
             </p>
-          </div>
+          </Link>
         ))}
       </div>
     </main>
