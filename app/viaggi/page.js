@@ -1,6 +1,7 @@
 import { auth } from "../../auth";
 import { prisma } from "../../lib/prisma";
 import Link from "next/link";
+import DeleteButton from "../components/DeleteButton";
 
 export default async function ViaggiPage() {
   const session = await auth();
@@ -26,6 +27,9 @@ export default async function ViaggiPage() {
             <p className="text-sm text-zinc-600">
               {trip.days} giorni · budget {trip.budget}
             </p>
+            <div className="mt-3">
+              <DeleteButton id={trip.id} />
+            </div>
           </Link>
         ))}
       </div>

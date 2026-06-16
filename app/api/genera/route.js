@@ -3,18 +3,22 @@ import { prisma } from "../../../lib/prisma";
 
 export async function POST(request) {
   try {
-    const { destination, days, budget, interests } = await request.json();
+    const { destination, days, budget, interests, arrivo, partenza } = await request.json();
 
     const prompt = `Sei un esperto pianificatore di viaggi. Crea un itinerario di ${days} giorni a ${destination}, con budget ${budget} e questi interessi: ${interests || "un po' di tutto"}.
+${arrivo ? `Il primo giorno il viaggiatore arriva alle ${arrivo}, quindi pianifica quel giorno tenendo conto dell'orario di arrivo (meno attività se arriva tardi).` : ""}
+${partenza ? `L'ultimo giorno il viaggiatore riparte alle ${partenza}, quindi pianifica quel giorno tenendo conto dell'orario di partenza (attività più leggere e vicine se riparte presto).` : ""}
 
 Rispondi SOLO con un JSON valido, senza alcun testo prima o dopo, con esattamente questa struttura:
 {
   "destination": "${destination}",
   "summary": "riassunto del viaggio in 1-2 frasi",
+  "tips": ["consiglio generale 1 sulla destinazione", "consiglio generale 2", "consiglio generale 3"],
   "days": [
     {
       "day": 1,
       "title": "titolo breve della giornata",
+      "tip": "un consiglio pratico specifico per questa giornata",
       "activities": [
         { "time": "Mattina", "name": "nome attività", "description": "descrizione in 1 frase" },
         { "time": "Pomeriggio", "name": "...", "description": "..." },
@@ -24,7 +28,7 @@ Rispondi SOLO con un JSON valido, senza alcun testo prima o dopo, con esattament
   ]
 }
 
-Regole: tutto in italiano, luoghi e locali reali e specifici di ${destination}, attività coerenti col budget ${budget}.`;
+Regole: tutto in italiano, luoghi e locali reali e specifici di ${destination}, attività coerenti col budget ${budget}. I consigli devono essere pratici e utili (es. orari migliori per evitare la folla, giorni di chiusura, come muoversi, quartieri da evitare o preferire in certi momenti).`;
 
     const res = await fetch(
       "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent",

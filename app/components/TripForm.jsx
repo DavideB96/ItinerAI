@@ -8,6 +8,8 @@ export default function TripForm() {
     days: 3,
     budget: "medio",
     interests: "",
+    arrivo: "",
+    partenza: "",
   });
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -106,6 +108,34 @@ export default function TripForm() {
           />
         </div>
 
+        <div>
+          <label htmlFor="arrivo" className="block text-sm font-semibold text-zinc-700">
+            Orario di arrivo (primo giorno)
+          </label>
+          <input
+            id="arrivo"
+            name="arrivo"
+            type="time"
+            value={form.arrivo}
+            onChange={handleChange}
+            className="mt-1 w-full rounded-lg border border-zinc-300 px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-zinc-500"
+          />
+        </div>
+
+        <div>
+          <label htmlFor="partenza" className="block text-sm font-semibold text-zinc-700">
+            Orario di partenza (ultimo giorno)
+          </label>
+          <input
+            id="partenza"
+            name="partenza"
+            type="time"
+            value={form.partenza}
+            onChange={handleChange}
+            className="mt-1 w-full rounded-lg border border-zinc-300 px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-zinc-500"
+          />
+        </div>
+
         <button
           type="submit"
           disabled={loading}
@@ -124,9 +154,22 @@ export default function TripForm() {
       {result && (
         <section className="mt-10 w-full max-w-md text-left">
           <h2 className="text-xl font-bold text-zinc-900">{result.summary}</h2>
+          {result.tips && (
+            <div className="mt-4 rounded-lg bg-amber-50 p-4">
+              <h3 className="text-sm font-semibold text-amber-900">Consigli utili</h3>
+              <ul className="mt-2 space-y-1 text-sm text-amber-800">
+                {result.tips.map((t, i) => (
+                  <li key={i}>• {t}</li>
+                ))}
+              </ul>
+            </div>
+          )}
           {result.days.map((d) => (
             <div key={d.day} className="mt-4 rounded-lg border border-zinc-200 bg-white p-4">
               <h3 className="font-semibold text-zinc-800">{d.title}</h3>
+              {d.tip && (
+                <p className="mt-1 text-xs font-medium text-amber-700">💡 {d.tip}</p>
+              )}
               <ul className="mt-2 space-y-1 text-sm text-zinc-600">
                 {d.activities.map((a, i) => (
                   <li key={i}>
