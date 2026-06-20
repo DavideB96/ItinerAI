@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
 
 export default function TripForm() {
   const [form, setForm] = useState({
@@ -42,52 +41,26 @@ export default function TripForm() {
     setLoading(false);
   }
 
+  const inputClass =
+    "mt-1 w-full rounded-lg border border-amber-200 bg-surface px-4 py-2.5 text-foreground focus:outline-none focus:ring-2 focus:ring-accent";
+  const labelClass = "block text-sm font-semibold text-foreground";
+
   return (
     <>
       <form onSubmit={handleSubmit} className="mt-8 w-full max-w-md space-y-5 text-left">
         <div>
-          <label htmlFor="destination" className="block text-sm font-semibold text-zinc-700">
-            Destinazione
-          </label>
-          <input
-            id="destination"
-            name="destination"
-            type="text"
-            required
-            placeholder="Es. Lisbona"
-            value={form.destination}
-            onChange={handleChange}
-            className="mt-1 w-full rounded-lg border border-zinc-300 px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-zinc-500"
-          />
+          <label htmlFor="destination" className={labelClass}>Destinazione</label>
+          <input id="destination" name="destination" type="text" required placeholder="Es. Lisbona" value={form.destination} onChange={handleChange} className={inputClass} />
         </div>
 
         <div>
-          <label htmlFor="days" className="block text-sm font-semibold text-zinc-700">
-            Giorni: {form.days}
-          </label>
-          <input
-            id="days"
-            name="days"
-            type="range"
-            min="1"
-            max="14"
-            value={form.days}
-            onChange={handleChange}
-            className="mt-1 w-full"
-          />
+          <label htmlFor="days" className={labelClass}>Giorni: {form.days}</label>
+          <input id="days" name="days" type="range" min="1" max="14" value={form.days} onChange={handleChange} className="mt-1 w-full accent-accent" />
         </div>
 
         <div>
-          <label htmlFor="budget" className="block text-sm font-semibold text-zinc-700">
-            Budget
-          </label>
-          <select
-            id="budget"
-            name="budget"
-            value={form.budget}
-            onChange={handleChange}
-            className="mt-1 w-full rounded-lg border border-zinc-300 px-4 py-2.5"
-          >
+          <label htmlFor="budget" className={labelClass}>Budget</label>
+          <select id="budget" name="budget" value={form.budget} onChange={handleChange} className={inputClass}>
             <option value="basso">Basso</option>
             <option value="medio">Medio</option>
             <option value="alto">Alto</option>
@@ -95,53 +68,21 @@ export default function TripForm() {
         </div>
 
         <div>
-          <label htmlFor="interests" className="block text-sm font-semibold text-zinc-700">
-            Interessi
-          </label>
-          <input
-            id="interests"
-            name="interests"
-            type="text"
-            placeholder="Es. cibo, musei, natura"
-            value={form.interests}
-            onChange={handleChange}
-            className="mt-1 w-full rounded-lg border border-zinc-300 px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-zinc-500"
-          />
+          <label htmlFor="interests" className={labelClass}>Interessi</label>
+          <input id="interests" name="interests" type="text" placeholder="Es. cibo, musei, natura" value={form.interests} onChange={handleChange} className={inputClass} />
         </div>
 
         <div>
-          <label htmlFor="arrivo" className="block text-sm font-semibold text-zinc-700">
-            Orario di arrivo (primo giorno)
-          </label>
-          <input
-            id="arrivo"
-            name="arrivo"
-            type="time"
-            value={form.arrivo}
-            onChange={handleChange}
-            className="mt-1 w-full rounded-lg border border-zinc-300 px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-zinc-500"
-          />
+          <label htmlFor="arrivo" className={labelClass}>Orario di arrivo (primo giorno)</label>
+          <input id="arrivo" name="arrivo" type="time" value={form.arrivo} onChange={handleChange} className={inputClass} />
         </div>
 
         <div>
-          <label htmlFor="partenza" className="block text-sm font-semibold text-zinc-700">
-            Orario di partenza (ultimo giorno)
-          </label>
-          <input
-            id="partenza"
-            name="partenza"
-            type="time"
-            value={form.partenza}
-            onChange={handleChange}
-            className="mt-1 w-full rounded-lg border border-zinc-300 px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-zinc-500"
-          />
+          <label htmlFor="partenza" className={labelClass}>Orario di partenza (ultimo giorno)</label>
+          <input id="partenza" name="partenza" type="time" value={form.partenza} onChange={handleChange} className={inputClass} />
         </div>
 
-        <button
-          type="submit"
-          disabled={loading}
-          className="w-full rounded-lg bg-zinc-900 py-3 font-semibold text-white hover:bg-zinc-700 disabled:opacity-50"
-        >
+        <button type="submit" disabled={loading} className="w-full rounded-xl bg-accent py-3 font-semibold text-white transition-colors hover:bg-accent-hover disabled:opacity-50">
           {loading ? "Generazione in corso..." : "Genera itinerario ✨"}
         </button>
       </form>
@@ -151,39 +92,33 @@ export default function TripForm() {
           {error}
         </p>
       )}
-      
+
       {result && (
         <section className="mt-10 w-full max-w-md text-left">
           {result.imageUrl && (
-            <Image
-              src={result.imageUrl}
-              alt={`Foto di ${result.destination}`}
-              width={400}
-              height={192}
-              className="mb-4 h-48 w-full rounded-lg object-cover"
-            />
+            <img src={result.imageUrl} alt={`Foto di ${result.destination}`} className="mb-4 h-48 w-full rounded-xl object-cover" />
           )}
-          <h2 className="text-xl font-bold text-zinc-900">{result.summary}</h2>
+          <h2 className="text-xl font-bold text-foreground">{result.summary}</h2>
+
           {result.tips && (
-            <div className="mt-4 rounded-lg bg-amber-50 p-4">
-              <h3 className="text-sm font-semibold text-amber-900">Consigli utili</h3>
-              <ul className="mt-2 space-y-1 text-sm text-amber-800">
+            <div className="mt-4 rounded-xl bg-amber-50 p-4">
+              <h3 className="text-sm font-semibold text-accent-hover">Consigli utili</h3>
+              <ul className="mt-2 space-y-1 text-sm text-muted">
                 {result.tips.map((t, i) => (
                   <li key={i}>• {t}</li>
                 ))}
               </ul>
             </div>
           )}
+
           {result.days.map((d) => (
-            <div key={d.day} className="mt-4 rounded-lg border border-zinc-200 bg-white p-4">
-              <h3 className="font-semibold text-zinc-800">{d.title}</h3>
-              {d.tip && (
-                <p className="mt-1 text-xs font-medium text-amber-700">💡 {d.tip}</p>
-              )}
-              <ul className="mt-2 space-y-1 text-sm text-zinc-600">
+            <div key={d.day} className="mt-4 rounded-xl border border-amber-100 bg-surface p-4">
+              <h3 className="font-semibold text-foreground">{d.title}</h3>
+              {d.tip && <p className="mt-1 text-xs font-medium text-accent">💡 {d.tip}</p>}
+              <ul className="mt-2 space-y-1 text-sm text-muted">
                 {d.activities.map((a, i) => (
                   <li key={i}>
-                    <strong>{a.time}:</strong> {a.name} — {a.description}
+                    <strong className="text-foreground">{a.time}:</strong> {a.name} — {a.description}
                   </li>
                 ))}
               </ul>
