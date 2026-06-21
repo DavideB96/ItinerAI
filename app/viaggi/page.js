@@ -12,27 +12,54 @@ export default async function ViaggiPage() {
   });
 
   return (
-    <main className="flex min-h-screen flex-col items-center bg-zinc-50 px-6 py-16">
-      <h1 className="text-3xl font-bold text-zinc-900">I miei viaggi</h1>
-      <p className="mt-2 text-zinc-600">Qui ritrovi gli itinerari che hai salvato.</p>
+    <main className="flex min-h-screen flex-col items-center bg-background px-6 py-16">
+      <h1 className="text-3xl font-bold text-foreground">I miei viaggi</h1>
+      <p className="mt-2 text-muted">Qui ritrovi gli itinerari che hai salvato.</p>
 
-      <div className="mt-8 w-full max-w-md space-y-4">
-        {itineraries.map((trip) => (
+      {itineraries.length === 0 ? (
+        <div className="mt-12 flex flex-col items-center text-center">
+          <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-amber-100 text-3xl">
+            🧳
+          </div>
+          <p className="text-muted">Non hai ancora salvato nessun viaggio.</p>
           <Link
-            key={trip.id}
-            href={`/viaggi/${trip.id}`}
-            className="block rounded-lg border border-zinc-200 bg-white p-4 hover:border-zinc-400"
+            href="/genera"
+            className="mt-4 inline-flex items-center gap-2 rounded-xl bg-accent px-5 py-2.5 font-semibold text-white transition-colors hover:bg-accent-hover"
           >
-            <h2 className="font-semibold text-zinc-900">{trip.destination}</h2>
-            <p className="text-sm text-zinc-600">
-              {trip.days} giorni · budget {trip.budget}
-            </p>
-            <div className="mt-3">
-              <DeleteButton id={trip.id} />
-            </div>
+            Crea il tuo primo itinerario
+            <span aria-hidden="true">→</span>
           </Link>
-        ))}
-      </div>
+        </div>
+      ) : (
+        <div className="mt-8 grid w-full max-w-3xl gap-5 sm:grid-cols-2">
+          {itineraries.map((trip) => (
+            <Link
+              key={trip.id}
+              href={`/viaggi/${trip.id}`}
+              className="group overflow-hidden rounded-2xl border border-amber-100 bg-surface shadow-sm transition-all hover:-translate-y-1 hover:shadow-md"
+            >
+              <div className="h-44 bg-amber-100">
+                {trip.content?.imageUrl && (
+                  <img
+                    src={trip.content.imageUrl}
+                    alt={`Foto di ${trip.destination}`}
+                    className="h-full w-full object-cover"
+                  />
+                )}
+              </div>
+              <div className="flex items-center justify-between gap-3 p-4">
+                <div>
+                  <h2 className="font-semibold text-foreground">{trip.destination}</h2>
+                  <p className="text-sm text-muted">
+                    {trip.days} giorni · budget {trip.budget}
+                  </p>
+                </div>
+                <DeleteButton id={trip.id} />
+              </div>
+            </Link>
+          ))}
+        </div>
+      )}
     </main>
   );
 }

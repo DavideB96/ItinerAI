@@ -1,10 +1,12 @@
 "use client";
 
 import { useState } from "react";
+import { useSearchParams } from "next/navigation";
 
 export default function TripForm() {
+  const searchParams = useSearchParams();
   const [form, setForm] = useState({
-    destination: "",
+    destination: searchParams.get("destinazione") || "",
     days: 3,
     budget: "medio",
     interests: "",
@@ -96,7 +98,7 @@ export default function TripForm() {
       {result && (
         <section className="mt-10 w-full max-w-md text-left">
           {result.imageUrl && (
-            <img src={result.imageUrl} alt={`Foto di ${result.destination}`} className="mb-4 h-48 w-full rounded-xl object-cover" />
+            <img src={result.imageUrl} alt={`Foto di ${result.destination}`} className="mb-4 w-full rounded-xl" />
           )}
           <h2 className="text-xl font-bold text-foreground">{result.summary}</h2>
 
