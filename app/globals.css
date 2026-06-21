@@ -20,15 +20,13 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #1c1814;
-    --foreground: #f0e9dc;
-    --surface: #2a241d;
-    --accent: #ef9f27;
-    --accent-hover: #fac775;
-    --muted: #b8a892;
-  }
+.dark {
+  --background: #1c1814;
+  --foreground: #f0e9dc;
+  --surface: #2a241d;
+  --accent: #ef9f27;
+  --accent-hover: #fac775;
+  --muted: #b8a892;
 }
 
 html {

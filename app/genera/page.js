@@ -1,6 +1,18 @@
 import TripForm from "../components/TripForm";
+import { auth } from "../../auth";
+import { prisma } from "../../lib/prisma";
 
-export default function GeneraPage() {
+export default async function GeneraPage() {
+  const session = await auth();
+
+  let interessiProfilo = "";
+  if (session?.user?.id) {
+    const user = await prisma.user.findUnique({
+      where: { id: session.user.id },
+    });
+    interessiProfilo = user?.interests || "";
+  }
+
   return (
     <main className="flex min-h-screen flex-col items-center bg-background px-6 py-16">
       <div className="mb-2 flex h-14 w-14 items-center justify-center rounded-2xl bg-amber-100">
@@ -10,7 +22,7 @@ export default function GeneraPage() {
       </div>
       <h1 className="text-3xl font-bold text-foreground">Genera il tuo itinerario</h1>
       <p className="mt-2 text-muted">Dicci che viaggio sogni, al resto pensa l'AI.</p>
-      <TripForm />
+      <TripForm interessiProfilo={interessiProfilo} />
     </main>
   );
 }

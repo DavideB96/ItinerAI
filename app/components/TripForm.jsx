@@ -3,13 +3,13 @@
 import { useState } from "react";
 import { useSearchParams } from "next/navigation";
 
-export default function TripForm() {
+export default function TripForm({ interessiProfilo }) {
   const searchParams = useSearchParams();
   const [form, setForm] = useState({
     destination: searchParams.get("destinazione") || "",
     days: 3,
     budget: "medio",
-    interests: "",
+    interests: interessiProfilo || "",
     arrivo: "",
     partenza: "",
   });
@@ -38,7 +38,7 @@ export default function TripForm() {
     if (res.ok) {
       setResult(data);
     } else {
-      setError("Qualcosa è andato storto nella generazione. Riprova tra poco.");
+      setError(data.error || "Qualcosa è andato storto nella generazione. Riprova tra poco.");
     }
     setLoading(false);
   }

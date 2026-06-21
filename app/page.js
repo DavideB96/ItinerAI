@@ -26,11 +26,11 @@ export default async function Home() {
           <circle cx="520" cy="110" r="2" fill="#BA7517" />
         </g>
         <g opacity="0.4">
-          <circle cx="150" cy="335" r="6" fill="none" stroke="#BA7517" strokeWidth="2.5" />
-          <circle cx="150" cy="335" r="2" fill="#BA7517" />
+          <circle cx="150" cy="300" r="6" fill="none" stroke="#BA7517" strokeWidth="2.5" />
+          <circle cx="150" cy="300" r="2" fill="#BA7517" />
         </g>
 
-        <circle cx="280" cy="160" r="3" fill="#FAC775" />
+        <circle cx="280" cy="145" r="3" fill="#FAC775" />
         <circle cx="850" cy="380" r="3" fill="#FAC775" />
       </svg>
 
@@ -46,7 +46,7 @@ export default async function Home() {
       <div className="relative z-10 mx-auto grid max-w-5xl items-center gap-12 md:grid-cols-2">
 
         <div className="text-center md:text-left">
-          <span className="inline-block rounded-full bg-amber-200 px-4 py-1.5 text-xs font-semibold text-accent-hover">
+          <span className="inline-block rounded-full bg-amber-200 px-4 py-1.5 text-xs font-semibold text-amber-900">
             Itinerari su misura con l'AI
           </span>
           <h1 className="mt-4 break-words text-3xl font-bold leading-tight text-foreground sm:text-4xl md:text-5xl">

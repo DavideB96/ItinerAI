@@ -26,7 +26,7 @@ export default function MobileMenu({ isLoggedIn, userName }) {
             {isLoggedIn ? (
               <>
                 <NavLink href="/viaggi">I miei viaggi</NavLink>
-                <span className="text-muted">Ciao, {userName || "viaggiatore"}</span>
+                <NavLink href="/profilo">Il mio profilo</NavLink>
                 <LogoutButton />
               </>
             ) : (
