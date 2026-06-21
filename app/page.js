@@ -35,7 +35,7 @@ export default async function Home() {
       </svg>
 
       <svg
-        className="pointer-events-none absolute right-[8%] top-[6%] rotate-45"
+        className="pointer-events-none absolute right-[8%] top-[3%] rotate-45"
         width="38" height="38" viewBox="0 0 24 24" fill="none"
         stroke="#BA7517" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
         aria-hidden="true"
@@ -49,7 +49,7 @@ export default async function Home() {
           <span className="inline-block rounded-full bg-amber-200 px-4 py-1.5 text-xs font-semibold text-accent-hover">
             Itinerari su misura con l'AI
           </span>
-          <h1 className="mt-4 text-4xl font-bold leading-tight text-foreground md:text-5xl">
+          <h1 className="mt-4 break-words text-3xl font-bold leading-tight text-foreground sm:text-4xl md:text-5xl">
             Dove ti porta il prossimo viaggio?
           </h1>
           <p className="mt-4 max-w-md text-lg text-muted">

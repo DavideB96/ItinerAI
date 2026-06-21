@@ -2,6 +2,7 @@ import Link from "next/link";
 import { auth } from "../../auth";
 import LogoutButton from "./LogoutButton";
 import NavLink from "./NavLinks";
+import MobileMenu from "./MobileMenu";
 
 export default async function Navbar() {
   const session = await auth();
@@ -15,7 +16,7 @@ export default async function Navbar() {
         ItinerAI
       </Link>
 
-      <div className="flex items-center gap-5 text-sm font-medium">
+      <div className="hidden items-center gap-5 text-sm font-medium sm:flex">
         <NavLink href="/genera">Genera</NavLink>
 
         {session?.user ? (
@@ -25,7 +26,7 @@ export default async function Navbar() {
               <span className="flex h-7 w-7 items-center justify-center rounded-full bg-accent text-xs font-semibold text-white">
                 {session.user.name ? session.user.name[0].toUpperCase() : "?"}
               </span>
-              <span className="hidden sm:inline">
+              <span className="hidden md:inline">
                 Ciao, {session.user.name || "viaggiatore"}
               </span>
             </span>
@@ -38,6 +39,8 @@ export default async function Navbar() {
           </>
         )}
       </div>
+
+      <MobileMenu isLoggedIn={!!session?.user} userName={session?.user?.name} />
     </nav>
   );
 }
