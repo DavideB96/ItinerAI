@@ -159,7 +159,7 @@ AUTH_SECRET="your-authjs-secret"
 
 <div align="center">
 
-*Aggiungi qui i tuoi screenshot / Add your screenshots here*
+*Da aggiungere screenshot / Add screenshots here*
 
 <!--
 Per aggiungere uno screenshot:
