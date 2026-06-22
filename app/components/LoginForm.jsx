@@ -31,8 +31,7 @@ export default function LoginForm() {
       setError("Email o password non corretti.");
       setLoading(false);
     } else {
-      router.push("/genera");
-      router.refresh();
+      window.location.href = "/genera";
     }
   }
 
