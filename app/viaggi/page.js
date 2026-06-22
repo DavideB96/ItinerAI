@@ -2,6 +2,7 @@ import { auth } from "../../auth";
 import { prisma } from "../../lib/prisma";
 import Link from "next/link";
 import DeleteButton from "../components/DeleteButton";
+import CoverImage from "../components/CoverImage";
 
 export default async function ViaggiPage() {
   const session = await auth();
@@ -38,14 +39,8 @@ export default async function ViaggiPage() {
               href={`/viaggi/${trip.id}`}
               className="group overflow-hidden rounded-2xl border border-amber-100 bg-surface shadow-sm transition-all hover:-translate-y-1 hover:shadow-md"
             >
-              <div className="h-44 bg-amber-100">
-                {trip.content?.imageUrl && (
-                  <img
-                    src={trip.content.imageUrl}
-                    alt={`Foto di ${trip.destination}`}
-                    className="h-full w-full object-cover"
-                  />
-                )}
+              <div className="relative h-44 bg-amber-100">
+                <CoverImage src={trip.content?.imageUrl} alt={`Foto di ${trip.destination}`} nome={trip.destination} />
               </div>
               <div className="flex items-center justify-between gap-3 p-4">
                 <div>

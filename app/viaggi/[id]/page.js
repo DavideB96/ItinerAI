@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import DeleteButton from "../../components/DeleteButton";
 import Image from "next/image";
 import Link from "next/link";
+import CoverImage from "../../components/CoverImage";
 
 export default async function DettaglioViaggio({ params }) {
   const { id } = await params;
@@ -26,7 +27,7 @@ export default async function DettaglioViaggio({ params }) {
           <span aria-hidden="true">←</span> Torna ai miei viaggi
         </Link>
 
-        {itinerary.imageUrl && (
+        {itinerary.imageUrl ? (
           <Image
             src={itinerary.imageUrl}
             alt={`Foto di ${trip.destination}`}
@@ -34,6 +35,10 @@ export default async function DettaglioViaggio({ params }) {
             height={800}
             className="w-full rounded-2xl"
           />
+        ) : (
+          <div className="flex h-60 w-full items-center justify-center rounded-2xl bg-gradient-to-br from-amber-300 to-accent">
+            <span className="text-3xl font-bold text-white drop-shadow">{trip.destination}</span>
+          </div>
         )}
 
         <div className="mt-6 flex flex-wrap items-start justify-between gap-4">

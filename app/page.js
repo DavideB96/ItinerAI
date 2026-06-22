@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { getDestinazioniCasuali } from "../lib/destinazioni";
+import CoverImage from "./components/CoverImage";
 
 export default async function Home() {
   const destinazioni = await getDestinazioniCasuali(4);
@@ -71,14 +72,7 @@ export default async function Home() {
               href={`/genera?destinazione=${encodeURIComponent(dest.nome)}`}
               className="group relative h-32 overflow-hidden rounded-xl bg-amber-100 shadow-sm transition-transform hover:scale-105"
             >
-              {dest.imageUrl && (
-                <Image
-                  src={dest.imageUrl}
-                  alt={`Foto di ${dest.nome}`}
-                  fill
-                  className="object-cover"
-                />
-              )}
+              <CoverImage src={dest.imageUrl} alt={`Foto di ${dest.nome}`} nome={dest.nome} />
               <div className="absolute inset-0 bg-black/25" />
               <span className="absolute bottom-2 left-3 z-10 font-semibold text-white">
                 {dest.nome}
