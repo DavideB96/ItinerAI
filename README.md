@@ -159,7 +159,8 @@ AUTH_SECRET="your-authjs-secret"
 
 <div align="center">
 
-*Da aggiungere screenshot / Add screenshots here*
+<img width="628" height="263" alt="Screenshot 2026-06-22 150416" src="https://github.com/user-attachments/assets/28fb769c-46e5-463f-aaea-2746ad7bf447" />
+
 
 <!--
 Per aggiungere uno screenshot:
