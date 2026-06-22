@@ -28,13 +28,23 @@ export default async function DettaglioViaggio({ params }) {
         </Link>
 
         {itinerary.imageUrl ? (
-          <Image
-            src={itinerary.imageUrl}
-            alt={`Foto di ${trip.destination}`}
-            width={1200}
-            height={800}
-            className="w-full rounded-2xl"
-          />
+          <div>
+            <Image
+              src={itinerary.imageUrl}
+              alt={`Foto di ${trip.destination}`}
+              width={1200}
+              height={800}
+              className="w-full rounded-2xl"
+            />
+            {itinerary.imageAutore && (
+              <p className="mt-1 text-xs text-muted">
+                Foto di{" "}
+                <a href={itinerary.imageLinkAutore} target="_blank" rel="noopener noreferrer" className="underline hover:text-accent">{itinerary.imageAutore}</a>
+                {" "}su{" "}
+                <a href={itinerary.imageLinkUnsplash} target="_blank" rel="noopener noreferrer" className="underline hover:text-accent">Unsplash</a>
+              </p>
+            )}
+          </div>
         ) : (
           <div className="flex h-60 w-full items-center justify-center rounded-2xl bg-gradient-to-br from-amber-300 to-accent">
             <span className="text-3xl font-bold text-white drop-shadow">{trip.destination}</span>

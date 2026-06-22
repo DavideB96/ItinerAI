@@ -76,7 +76,7 @@ Regole: tutto in italiano, luoghi e locali reali e specifici di ${destination}, 
 
     const geminiPromise = chiamaGemini(prompt, true);
     const imagePromise = getDestinationImage(destination);
-    const [res, imageUrl] = await Promise.all([geminiPromise, imagePromise]);
+    const [res, imageData] = await Promise.all([geminiPromise, imagePromise]);
 
     if (!res.ok) {
       console.error("Errore Gemini:", await res.text());
@@ -86,7 +86,10 @@ Regole: tutto in italiano, luoghi e locali reali e specifici di ${destination}, 
     const data = await res.json();
     const text = data.candidates[0].content.parts[0].text;
     const itinerary = JSON.parse(text);
-    itinerary.imageUrl = imageUrl;
+    itinerary.imageUrl = imageData?.url ?? null;
+    itinerary.imageAutore = imageData?.autore ?? null;
+    itinerary.imageLinkAutore = imageData?.linkAutore ?? null;
+    itinerary.imageLinkUnsplash = imageData?.linkUnsplash ?? null;
 
     const session = await auth();
     if (session?.user?.id) {
