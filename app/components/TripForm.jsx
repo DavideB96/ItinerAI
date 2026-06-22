@@ -97,8 +97,12 @@ export default function TripForm({ interessiProfilo }) {
 
       {result && (
         <section className="mt-10 w-full max-w-md text-left">
-          {result.imageUrl && (
+          {result.imageUrl ? (
             <img src={result.imageUrl} alt={`Foto di ${result.destination}`} className="mb-4 w-full rounded-xl" />
+          ) : (
+            <div className="relative mb-4 flex h-48 w-full items-center justify-center overflow-hidden rounded-xl bg-gradient-to-br from-amber-300 to-accent">
+              <span className="text-2xl font-bold text-white drop-shadow">{result.destination}</span>
+            </div>
           )}
           <h2 className="text-xl font-bold text-foreground">{result.summary}</h2>
 
