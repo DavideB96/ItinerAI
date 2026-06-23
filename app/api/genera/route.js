@@ -3,7 +3,7 @@ import { prisma } from "../../../lib/prisma";
 import { getDestinationImage } from "../../../lib/unsplash";
 
 // Lista dei modelli: prova il primo, se sovraccarico ripiega sul secondo
-const MODELLI = ["gemini-2.5-flash-lite", "gemini-2.0-flash"];
+const MODELLI = ["gemini-2.5-flash-lite", "gemini-2.5-flash"];
 
 // Piccola pausa (in millisecondi)
 function aspetta(ms) {
